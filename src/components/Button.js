@@ -1,5 +1,7 @@
-import React from "react";
-
-export default function Button({ text }) {
-	return <button className="button__start">{text}</button>;
+export default function Button({ text, onClick, onSubmit }) {
+	return (
+		<button className="button__start" onClick={onClick} onSubmit={onSubmit}>
+			{text}
+		</button>
+	);
 }

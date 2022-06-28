@@ -1,18 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
 	margin: 0;
 	padding: 0;
 }
 
 body {
+	font-size: 16px;
 	background-color: #F5F7FB;
+	overflow-y: hidden;
 }
 
-/* Button */
+/* Start Page */
+.blob-1 {
+	display: flex;
+	align-self: flex-start;
+	margin-left: 50px;
+	margin-top: 50px;
+	width: 25%;
+}
+
+.blob-2 {
+	display: flex;
+	align-self: flex-end;
+	margin-right: 50px;
+	width: 20%;
+}
+
+main {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	min-height: 720px;
+	height: fit-content;
+	padding: 32px;
+	margin: 32px;
+}
+
+.title {
+	font-family: "Karla", sans-serif;
+	font-size: 2rem;
+	color: #293264;
+}
+
+.description {
+	font-family: "Inter", sans-serif;
+	font-size: 0.9rem;
+	color: #293264;
+	margin-bottom: 24px;
+	max-width: 320px;
+	text-align: center;
+}
+
+.categories {
+	z-index: 10;
+}
+
+.categories, .difficulties {
+	margin-bottom: 16px;
+	font-family: "Karla", sans-serif;
+	color: #293264;
+}
+
 .button__start {
 	width: 120px;
 	height: 44px;
 	border: none;
 	border-radius: 8px;
-	background-color: #4D5B9E;
+	background: rgb(251,178,63);
+	background: linear-gradient(210deg, rgba(251,178,63,1) 0%, rgba(252,70,107,1) 100%); 
 	color: white;
+	font-family: "Inter", sans-serif;
+	font-weight: 500;
+	font-size: 0.9rem;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.12);
 }
