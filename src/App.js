@@ -5,42 +5,71 @@ import Question from "./components/Question";
 import { nanoid } from "nanoid";
 
 function App() {
+	// eslint-disable-next-line
+	const [fetchData, setFetchData] = useState(false);
 	const [quizStarted, setQuizStarted] = useState(false);
 	const [triviaData, setTriviaData] = useState([]);
-	const [questions, setQuestions] = useState([]);
 
 	useEffect(() => {
 		async function getQuestions() {
 			const res = await fetch(
-				`https://opentdb.com/api.php?amount=5&type=multiple`
+				`https://opentdb.com/api.php?amount=2&type=multiple`
 			);
 			const data = await res.json();
+
 			data.results.map((result) => {
-				return setQuestions((prev) => [
+				return setTriviaData((prev) => [
 					...prev,
 					{
-						question: result.question,
-						options: result.options,
+						id: nanoid(),
+						question: decodeString(result.question),
+						answers: scrambleAnswers([
+							...result.incorrect_answers,
+							result.correct_answer,
+						]),
 					},
 				]);
 			});
-			setTriviaData(data);
 		}
 		getQuestions();
-	}, []);
+
+		// eslint-disable-next-line
+	}, [fetchData]);
 
 	function handleStartQuiz() {
 		setQuizStarted(true);
-		console.log(triviaData);
-		console.log(triviaData.results);
 	}
 
-	const quizElements = questions.map((item) => {
+	function decodeString(question) {
+		const txt = document.createElement("textarea");
+		txt.innerHTML = question;
+		return txt.value;
+	}
+
+	function scrambleAnswers(arr) {
+		const answer = decodeString(arr.pop());
+		const newArray = arr.map((ans) => decodeString(ans));
+		const randomNumber = Math.floor(Math.random() * 4);
+
+		newArray.splice(randomNumber, 0, answer);
+
+		const answersArray = newArray.map((item) => {
+			return {
+				value: item,
+				isCorrect: item === answer ? true : false,
+				isSelected: false,
+			};
+		});
+		return answersArray;
+	}
+
+	const quizElements = triviaData.map((item) => {
 		return (
 			<Question
-				key={item.question}
+				key={item.id}
+				id={item.id}
 				question={item.question}
-				options={item.options}
+				answers={item.answers}
 			/>
 		);
 	});
@@ -50,7 +79,7 @@ function App() {
 			{!quizStarted ? (
 				<StartPage onClick={handleStartQuiz} />
 			) : (
-				{ quizElements }
+				<div className="Quiz">{quizElements}</div>
 			)}
 		</div>
 	);
