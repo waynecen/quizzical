@@ -1,8 +1,8 @@
 import Button from "./components/Button";
 import BlobOne from "../src/img/blob1.png";
 import BlobTwo from "../src/img/blob2.png";
-import SelectCategory from "./components/SelectCategory";
-import SelectDifficulty from "./components/SelectDifficulty";
+import Dropdown from "./components/Dropdown";
+import { categories, difficulties } from "./components/data";
 
 export default function StartPage({ onClick }) {
 	return (
@@ -12,8 +12,8 @@ export default function StartPage({ onClick }) {
 			<p className="description">
 				Five trivia questions to see how much you know about anything!
 			</p>
-			<SelectCategory />
-			<SelectDifficulty />
+			<Dropdown items={categories} />
+			<Dropdown items={difficulties} />
 			<Button text="Start quiz" onClick={onClick} />
 			<img src={BlobOne} className="blob-1" alt=""></img>
 		</main>

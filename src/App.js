@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
+import { nanoid } from "nanoid";
+import { difficulties, categories } from "./components/data";
 import StartPage from "./StartPage";
 import Question from "./components/Question";
-import { nanoid } from "nanoid";
+import Button from "./components/Button";
 
 function App() {
-	// eslint-disable-next-line
 	const [fetchData, setFetchData] = useState(false);
 	const [quizStarted, setQuizStarted] = useState(false);
 	const [triviaData, setTriviaData] = useState([]);
+	const [selectedDifficulty, setSelectedDifficulty] = useState(
+		difficulties[0]
+	);
 
 	useEffect(() => {
-		async function getQuestions() {
+		async function getQuestions(category, difficulty) {
 			const res = await fetch(
-				`https://opentdb.com/api.php?amount=2&type=multiple`
+				`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`
 			);
 			const data = await res.json();
-
-			data.results.map((result) => {
-				return setTriviaData((prev) => [
-					...prev,
-					{
-						id: nanoid(),
-						question: decodeString(result.question),
-						answers: scrambleAnswers([
-							...result.incorrect_answers,
-							result.correct_answer,
-						]),
-					},
-				]);
-			});
+			if (fetchData) {
+				data.results.map((result) => {
+					return setTriviaData((prev) => [
+						...prev,
+						{
+							id: nanoid(),
+							question: decodeString(result.question),
+							answers: scrambleAnswers([
+								...result.incorrect_answers,
+								result.correct_answer,
+							]),
+						},
+					]);
+				});
+			}
 		}
 		getQuestions();
 
@@ -37,6 +42,7 @@ function App() {
 	}, [fetchData]);
 
 	function handleStartQuiz() {
+		setFetchData(true);
 		setQuizStarted(true);
 	}
 
@@ -79,7 +85,10 @@ function App() {
 			{!quizStarted ? (
 				<StartPage onClick={handleStartQuiz} />
 			) : (
-				<div className="Quiz">{quizElements}</div>
+				<div className="Quiz">
+					{quizElements}
+					<Button text="Check Answers" />
+				</div>
 			)}
 		</div>
 	);

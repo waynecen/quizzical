@@ -2,42 +2,16 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
-const categories = [
-	{ category: "Any Category" },
-	{ category: "General Knowledge" },
-	{ category: "Books" },
-	{ category: "Film" },
-	{ category: "Music" },
-	{ category: "Musicals & Theatres" },
-	{ category: "Television" },
-	{ category: "Video Games" },
-	{ category: "Board Games" },
-	{ category: "Nature" },
-	{ category: "Computers" },
-	{ category: "Mathematics" },
-	{ category: "Mythology" },
-	{ category: "Sports" },
-	{ category: "Geography" },
-	{ category: "History" },
-	{ category: "Politics" },
-	{ category: "Art" },
-	{ category: "Celebrities" },
-	{ category: "Animals" },
-	{ category: "Vehicles" },
-	{ category: "Comics" },
-	{ category: "Gadgets" },
-	{ category: "Anime & Manga" },
-	{ category: "Cartoons & Animations" },
-];
-
-export default function SelectCategory() {
-	const [selected, setSelected] = useState(categories[0]);
+export default function Dropdown({ items }) {
+	const [selected, setSelected] = useState(items[0]);
 
 	return (
-		<div className="relative w-72 categories">
+		<div className="relative w-72 bold">
 			<Listbox value={selected} onChange={setSelected}>
 				<Listbox.Button className="w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-					<span className="block truncate">{selected.category}</span>
+					<span className="block truncate">
+						{selected.category || selected.difficulty}
+					</span>
 					<span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
 						<SelectorIcon
 							className="h-5 w-5 text-gray-400"
@@ -51,10 +25,10 @@ export default function SelectCategory() {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-						{categories.map((category, categoryIdx) => (
+					<Listbox.Options className="on-top absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+						{items.map((item, itemIdx) => (
 							<Listbox.Option
-								key={categoryIdx}
+								key={itemIdx}
 								className={({ active }) =>
 									`relative cursor-pointer select-none py-2 pl-10 pr-4 ${
 										active
@@ -62,18 +36,18 @@ export default function SelectCategory() {
 											: "text-gray-900"
 									}`
 								}
-								value={category}
+								value={item}
 							>
 								{({ selected }) => (
 									<>
 										<span
-											className={`block truncate ${
+											className={`block truncate new ${
 												selected
 													? "font-medium"
 													: "font-normal"
 											}`}
 										>
-											{category.category}
+											{item.category || item.difficulty}
 										</span>
 										{selected ? (
 											<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">

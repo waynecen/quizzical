@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--primaryColor: #293264;
+	--primaryText: "Karla", sans-serif;
+	--secondaryText: "Inter", sans-serif;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -10,7 +16,6 @@
 body {
 	font-size: 16px;
 	background-color: #F5F7FB;
-	overflow-y: hidden;
 }
 
 /* Start Page */
@@ -40,28 +45,28 @@ main {
 }
 
 .title {
-	font-family: "Karla", sans-serif;
+	font-family: var(--primaryText);
 	font-size: 2rem;
-	color: #293264;
+	color: var(--primaryColor);
 }
 
 .description {
-	font-family: "Inter", sans-serif;
+	font-family: var(--secondaryText);
 	font-size: 0.9rem;
-	color: #293264;
+	color: var(--primaryColor);
 	margin-bottom: 24px;
 	max-width: 320px;
 	text-align: center;
 }
 
-.categories {
+.on-top {
 	z-index: 10;
 }
 
-.categories, .difficulties {
+.bold {
 	margin-bottom: 16px;
-	font-family: "Karla", sans-serif;
-	color: #293264;
+	font-family: var(--primaryText);
+	color: var(--primaryColor);
 }
 
 .button__start {
@@ -72,36 +77,65 @@ main {
 	background: rgb(251,178,63);
 	background: linear-gradient(210deg, rgba(251,178,63,1) 0%, rgba(252,70,107,1) 100%); 
 	color: white;
-	font-family: "Inter", sans-serif;
+	font-family: var(--secondaryText);
 	font-weight: 500;
 	font-size: 0.9rem;
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.12);
 }
 
 /* Questions */
+.Quiz {
+	display: flex;
+	flex-direction: column;
+	justify-self: center;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
 .wrapper__question {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	border-bottom: 1px rgba(219, 222, 240, 1) solid;
 	margin-bottom: 16px;
-	padding: 32px;
+	margin-top: 32px;
 }
 
 .question {
-	font-family: "Karla", sans-serif;
+	font-family: var(--primaryText);
 	font-weight: 700;
+	font-size: 1.1rem;
 	color: rgba(41, 50, 100, 1);
-	margin-bottom: 12px;
+	margin-bottom: 16px;
 }
 
-.question__answer answers {
-	margin-right: 32px;
+/* Answers */
+.question__answer {
+	display: flex;
+	flex-direction: row;
 }
 
-.selected {
-	font-family: "Inter", sans-serif;
-	font-weight: 400;
+.question__answer button {
+	font-family: var(--secondaryText);
+	font-weight: 500;
 	font-size: 0.9rem;
-	border: 1px red solid;
+	color: var(--primaryColor);
+	border: 1px #4D5B9E solid;
+	border-radius: 12px;
+	padding: 8px 16px;
+	margin-right: 16px;
+	margin-bottom: 32px;
+	transition: all 0.195s ease-out;
+}
+
+.question__answer button:hover {
+	background-color: #D6DBF5;
+	border: 1px #4d5b9e00 solid;
+}
+
+.Quiz button.button__start {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
 }
