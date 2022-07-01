@@ -13,14 +13,16 @@ function App() {
 	const [selectedDifficulty, setSelectedDifficulty] = useState(
 		difficulties[0]
 	);
+	const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
 	useEffect(() => {
-		async function getQuestions(category, difficulty) {
+		async function getQuestions(difficulty) {
 			const res = await fetch(
-				`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`
+				`https://opentdb.com/api.php?amount=5&category=10&difficulty=${difficulty}&type=multiple`
 			);
 			const data = await res.json();
 			if (fetchData) {
+				console.log(data);
 				data.results.map((result) => {
 					return setTriviaData((prev) => [
 						...prev,
@@ -36,14 +38,15 @@ function App() {
 				});
 			}
 		}
-		getQuestions();
-
+		getQuestions(selectedDifficulty);
 		// eslint-disable-next-line
 	}, [fetchData]);
 
 	function handleStartQuiz() {
 		setFetchData(true);
 		setQuizStarted(true);
+		setSelectedDifficulty(getDifficulty());
+		setSelectedCategory("books");
 	}
 
 	function decodeString(question) {
@@ -57,6 +60,7 @@ function App() {
 		const newArray = arr.map((ans) => decodeString(ans));
 		const randomNumber = Math.floor(Math.random() * 4);
 
+		// insert correct answer randomly into other answers
 		newArray.splice(randomNumber, 0, answer);
 
 		const answersArray = newArray.map((item) => {
@@ -79,6 +83,18 @@ function App() {
 			/>
 		);
 	});
+
+	function getDifficulty() {
+		const difficulty = document.querySelector("#difficulty").innerText;
+
+		let updatedDifficulty;
+		if (difficulty === "Any Difficulty") {
+			return "";
+		} else {
+			updatedDifficulty = difficulty.toLowerCase();
+		}
+		return updatedDifficulty;
+	}
 
 	return (
 		<div className="App">

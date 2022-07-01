@@ -9,7 +9,7 @@ export default function Dropdown({ items }) {
 		<div className="relative w-72 bold">
 			<Listbox value={selected} onChange={setSelected}>
 				<Listbox.Button className="w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-					<span className="block truncate">
+					<span id={Object.keys(selected)} className="block truncate">
 						{selected.category || selected.difficulty}
 					</span>
 					<span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

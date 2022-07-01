@@ -12,9 +12,11 @@ export default function StartPage({ onClick }) {
 			<p className="description">
 				Five trivia questions to see how much you know about anything!
 			</p>
-			<Dropdown items={categories} />
-			<Dropdown items={difficulties} />
-			<Button text="Start quiz" onClick={onClick} />
+			<form>
+				<Dropdown items={categories} />
+				<Dropdown items={difficulties} />
+				<Button text="Start quiz" onClick={onClick} />
+			</form>
 			<img src={BlobOne} className="blob-1" alt=""></img>
 		</main>
 	);
