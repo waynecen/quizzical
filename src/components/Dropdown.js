@@ -9,7 +9,11 @@ export default function Dropdown({ items }) {
 		<div className="relative w-72 bold">
 			<Listbox value={selected} onChange={setSelected}>
 				<Listbox.Button className="w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-					<span id={Object.keys(selected)} className="block truncate">
+					<span
+						id={Object.keys(selected)[0]}
+						value={selected.id}
+						className="block truncate"
+					>
 						{selected.category || selected.difficulty}
 					</span>
 					<span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -29,6 +33,7 @@ export default function Dropdown({ items }) {
 						{items.map((item, itemIdx) => (
 							<Listbox.Option
 								key={itemIdx}
+								id={Object.keys(selected)[1]}
 								className={({ active }) =>
 									`relative cursor-pointer select-none py-2 pl-10 pr-4 ${
 										active
@@ -46,6 +51,7 @@ export default function Dropdown({ items }) {
 													? "font-medium"
 													: "font-normal"
 											}`}
+											id={item.id}
 										>
 											{item.category || item.difficulty}
 										</span>

@@ -16,37 +16,35 @@ function App() {
 	const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
 	useEffect(() => {
-		async function getQuestions(difficulty) {
+		async function getQuestions(category, difficulty) {
 			const res = await fetch(
-				`https://opentdb.com/api.php?amount=5&category=10&difficulty=${difficulty}&type=multiple`
+				`https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${difficulty}&type=multiple`
 			);
 			const data = await res.json();
-			if (fetchData) {
-				console.log(data);
-				data.results.map((result) => {
-					return setTriviaData((prev) => [
-						...prev,
-						{
-							id: nanoid(),
-							question: decodeString(result.question),
-							answers: scrambleAnswers([
-								...result.incorrect_answers,
-								result.correct_answer,
-							]),
-						},
-					]);
-				});
-			}
+
+			data.results.map((result) => {
+				return setTriviaData((prev) => [
+					...prev,
+					{
+						id: nanoid(),
+						question: decodeString(result.question),
+						answers: scrambleAnswers([
+							...result.incorrect_answers,
+							result.correct_answer,
+						]),
+					},
+				]);
+			});
 		}
-		getQuestions(selectedDifficulty);
+		getQuestions(selectedCategory, selectedDifficulty);
 		// eslint-disable-next-line
 	}, [fetchData]);
 
 	function handleStartQuiz() {
 		setFetchData(true);
 		setQuizStarted(true);
+		setSelectedCategory(getCategory());
 		setSelectedDifficulty(getDifficulty());
-		setSelectedCategory("books");
 	}
 
 	function decodeString(question) {
@@ -83,6 +81,14 @@ function App() {
 			/>
 		);
 	});
+
+	function getCategory() {
+		const category = document
+			.querySelector("#category")
+			.getAttribute("value");
+
+		return category;
+	}
 
 	function getDifficulty() {
 		const difficulty = document.querySelector("#difficulty").innerText;
