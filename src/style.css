@@ -18,20 +18,37 @@ body {
 	background-color: #F5F7FB;
 }
 
-/* Start Page */
-.blob-1 {
+.App {
 	display: flex;
-	align-self: flex-start;
-	margin-left: 50px;
-	margin-top: 50px;
-	width: 25%;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Start Page */
+.startPage {
+	display: flex;
+	justify-content: center;
+}
+
+.wrapper__form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.blob-1 {
+	position: absolute;
+	z-index: 0;
+	left: 3%;
+	bottom: 20%;
+	width: 30%;
 }
 
 .blob-2 {
-	display: flex;
-	align-self: flex-end;
-	margin-right: 50px;
-	width: 20%;
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	width: 30%;
 }
 
 main {
@@ -96,6 +113,7 @@ form {
 	justify-self: center;
 	margin-left: 10%;
 	margin-right: 10%;
+	max-width: 720px;
 }
 
 .wrapper__question {

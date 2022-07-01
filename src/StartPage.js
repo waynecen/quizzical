@@ -8,15 +8,18 @@ export default function StartPage({ onClick }) {
 	return (
 		<main className="startPage">
 			<img src={BlobTwo} className="blob-2" alt=""></img>
-			<h1 className="title">Quizzical</h1>
-			<p className="description">
-				Five trivia questions to see how much you know about anything!
-			</p>
-			<form>
-				<Dropdown items={categories} />
-				<Dropdown items={difficulties} />
-				<Button text="Start quiz" onClick={onClick} />
-			</form>
+			<div className="wrapper__form">
+				<h1 className="title">Quizzical</h1>
+				<p className="description">
+					Five trivia questions to see how much you know about
+					anything!
+				</p>
+				<form>
+					<Dropdown items={categories} />
+					<Dropdown items={difficulties} />
+					<Button text="Start quiz" onClick={onClick} />
+				</form>
+			</div>
 			<img src={BlobOne} className="blob-1" alt=""></img>
 		</main>
 	);
