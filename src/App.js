@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
-import { nanoid } from "nanoid";
 import { difficulties, categories } from "./components/data";
+import { nanoid } from "nanoid";
 import StartPage from "./StartPage";
 import Question from "./components/Question";
 import Button from "./components/Button";
@@ -14,6 +13,8 @@ function App() {
 		difficulties[0]
 	);
 	const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+	const [count, setCount] = React.useState(0);
+	const [review, setReview] = React.useState(false);
 
 	useEffect(() => {
 		async function getQuestions(category, difficulty) {
@@ -41,7 +42,8 @@ function App() {
 	}, [fetchData]);
 
 	function handleStartQuiz() {
-		setFetchData(true);
+		setTriviaData([]);
+		setFetchData((prev) => !prev);
 		setQuizStarted(true);
 		setSelectedCategory(getCategory());
 		setSelectedDifficulty(getDifficulty());
@@ -71,17 +73,6 @@ function App() {
 		return answersArray;
 	}
 
-	const quizElements = triviaData.map((item) => {
-		return (
-			<Question
-				key={item.id}
-				id={item.id}
-				question={item.question}
-				answers={item.answers}
-			/>
-		);
-	});
-
 	function getCategory() {
 		const category = document
 			.querySelector("#category")
@@ -102,6 +93,67 @@ function App() {
 		return updatedDifficulty;
 	}
 
+	function selectAnswer(e, selectedAnswer) {
+		const selectedQuestion = triviaData.find((item) => {
+			return item.answers.find((answer) => {
+				return answer.value === selectedAnswer;
+			});
+		});
+
+		let activeSelection = selectedQuestion.answers.find(
+			(answer) => answer.isSelected
+		);
+
+		if (!activeSelection || activeSelection.value === selectedAnswer) {
+			e.target.classList.toggle("selected");
+			setTriviaData((prevData) => {
+				return prevData.map((item) => {
+					return {
+						...item,
+						answers: item.answers.map((answer) => {
+							return answer.value === selectedAnswer
+								? { ...answer, isSelected: !answer.isSelected }
+								: answer;
+						}),
+					};
+				});
+			});
+		}
+	}
+
+	function checkAnswers(text) {
+		if (text === "Play Again") {
+			setTriviaData([]);
+			setQuizStarted(false);
+			setCount(0);
+			setReview(false);
+			setFetchData((prev) => !prev);
+		} else {
+			triviaData.forEach((item) => {
+				item.answers.forEach((answer) => {
+					if (answer.isSelected && answer.isCorrect) {
+						setCount((prev) => prev + 1);
+					}
+				});
+			});
+			setReview(true);
+		}
+	}
+
+	const quizElements = triviaData.map((item) => {
+		return (
+			<Question
+				key={nanoid()}
+				id={item.id}
+				question={item.question}
+				answers={item.answers}
+				selectAnswer={selectAnswer}
+				isSelected={item.isSelected}
+				review={review}
+			/>
+		);
+	});
+
 	return (
 		<div className="App">
 			{!quizStarted ? (
@@ -109,7 +161,15 @@ function App() {
 			) : (
 				<div className="Quiz">
 					{quizElements}
-					<Button text="Check Answers" />
+					<div className="wrapper__result">
+						{review && (
+							<p className="result">You scored: {count}/5</p>
+						)}
+						<Button
+							text={review ? "Play Again" : "Check Answers"}
+							onClick={(e) => checkAnswers(e.target.textContent)}
+						/>
+					</div>
 				</div>
 			)}
 		</div>

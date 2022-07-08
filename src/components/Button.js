@@ -1,6 +1,6 @@
-export default function Button({ text, onClick, onSubmit }) {
+export default function Button({ text, onClick }) {
 	return (
-		<button className="button__start" onClick={onClick} onSubmit={onSubmit}>
+		<button className="button__start" onClick={onClick}>
 			{text}
 		</button>
 	);

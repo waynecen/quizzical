@@ -1,8 +1,39 @@
 import { nanoid } from "nanoid";
 
-export default function Question({ question, answers }) {
+export default function Question({
+	id,
+	question,
+	answers,
+	selectAnswer,
+	review,
+}) {
+	function setClass(answer) {
+		if (review) {
+			if (answer.isSelected && !answer.isCorrect) {
+				return "btn-incorrect";
+			} else if (answer.isCorrect) {
+				return "btn-correct";
+			} else {
+				return "notSelected";
+			}
+		} else if (answer.isSelected) {
+			return "selected";
+		} else {
+			return "notSelected";
+		}
+	}
+
 	const answerElements = answers.map((item) => {
-		return <button key={nanoid()}>{item.value}</button>;
+		return (
+			<button
+				id={id}
+				key={nanoid()}
+				className={setClass(item)}
+				onClick={(event) => selectAnswer(event, item.value)}
+			>
+				{item.value}
+			</button>
+		);
 	});
 
 	return (
