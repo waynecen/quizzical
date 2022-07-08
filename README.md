@@ -2,7 +2,7 @@
 Multiple choice trivia with a variety of categories and difficulty settings.
 
 ## 🏃 Motivation & Challenges
-This project was created to practice using React alongside an API (OpenTriviaDB) and component library (HeadlessUI).
+This project was created to practice using a frontend framework (React), alongside a public API (OpenTriviaDB), and component library (HeadlessUI). This project presented a series of tough challenges from configuring the API call based on the dropdown options to configuring the "data" to work with HeadlessUI.
 
 #### Configuring the API request:
 ```javascript
